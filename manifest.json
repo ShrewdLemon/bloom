@@ -1,0 +1,42 @@
+{
+  "name": "Bloom & Brew: Risk Management Training Game",
+  "short_name": "Bloom & Brew",
+  "description": "A cozy cafe-bakery management game that teaches risk management concepts through sophisticated algorithmic challenges",
+  "version": "1.0.0",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f9f7f2",
+  "theme_color": "#9CAF88",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en",
+  "categories": ["games", "education", "productivity"],
+  "icons": [
+    {
+      "src": "assets/images/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "assets/images/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Start Casual Mode",
+      "url": "/?mode=casual",
+      "description": "Start the game in casual mode"
+    },
+    {
+      "name": "Start Professional Mode",
+      "url": "/?mode=professional",
+      "description": "Start the game in professional mode with advanced mathematics"
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false
+}

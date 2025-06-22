@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bloom & Brew</title>
+    <meta name="description" content="A risk management training game disguised as a cozy cafe-bakery management simulation">
+        <link rel="stylesheet" href="src/css/main.css">
+    <link rel="stylesheet" href="src/css/management.css">
+    <link rel="manifest" href="manifest.json">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="game-container">
+        <header class="game-header">
+            <h1>Bloom & Brew</h1>
+            <div class="time-controls">
+                <button id="pause-btn" class="time-btn">⏸️ Pause</button>
+                <button id="play-btn" class="time-btn">▶️ 1x</button>
+                <button id="fast-btn" class="time-btn">⏩ 3x</button>
+                <button id="ultra-fast-btn" class="time-btn">⏭️ 10x</button>
+            </div>
+            <div class="game-stats">
+                <div class="stat">
+                    <span class="stat-label">Time:</span>
+                    <span id="game-time">6:00 AM</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Customers:</span>
+                    <span id="customer-count">0</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Satisfaction:</span>
+                    <span id="satisfaction">100%</span>
+                </div>
+            </div>
+        </header>
+
+        <main class="game-main">
+            <div id="cafe-view" class="game-view">
+                <!-- Cafe layout will be rendered here -->
+            </div>
+            <div id="ui-panels">
+                <div id="player-stats" class="panel">
+                    <h3>Business Metrics</h3>
+                    <div id="metrics-container">
+                        <!-- Metrics will be populated by JavaScript -->
+                    </div>
+                </div>
+                <div id="action-panel" class="panel">
+                    <h3>Actions</h3>
+                    <div class="button-group">
+                        <button id="bake-btn" class="action-btn">🥐 Bake Croissants</button>
+                        <button id="arrange-btn" class="action-btn">🌸 Arrange Flowers</button>
+                        <button id="serve-btn" class="action-btn">☕ Serve Customers</button>
+                        <button id="manage-btn" class="action-btn">📊 Manage Business</button>
+                        <button id="spawn-customer-btn" class="action-btn">👥 Attract Customer</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <div id="cat-chaos-indicator">
+            <span id="cat-status">Schrödinger is sleeping... for now.</span>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <!-- Management Modal -->
+    <div id="management-modal" class="modal-overlay">
+        <div class="modal-content" style="max-width: 800px; display: flex; flex-direction: column;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h2>Management View</h2>
+                <button id="close-mgmt-panel-btn" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">&times;</button>
+            </div>
+            <div id="stats-bar" style="display: flex; justify-content: space-around; padding: 16px 0; border-bottom: 1px solid #E2E8F0;">
+                 <div class="stat"><div id="mgmt-day-value" class="stat-value">1</div><div class="stat-label">Day</div></div>
+                 <div class="stat"><div id="mgmt-money-value" class="stat-value">$1000</div><div class="stat-label">Money</div></div>
+                 <div class="stat"><div id="mgmt-reputation-value" class="stat-value">50/100</div><div class="stat-label">Reputation</div></div>
+            </div>
+            <div id="management-content" style="display: flex; flex-grow: 1; padding-top: 16px;">
+                <aside id="controls-panel" style="width: 100%;">
+                    <div class="control-section">
+                        <h3>Cafe Equipment</h3>
+                        <button id="buy-coffee-machine" class="control-button">Buy Basic Coffee Machine<div class="purchase-info">Cost: $500 | +Rep, +Customers</div></button>
+                        <button id="buy-pro-coffee-machine" class="control-button">Buy Pro Coffee Machine<div class="purchase-info">Cost: $1200 | ++Rep, ++Customers</div></button>
+                        <button id="buy-pastry-display" class="control-button">Buy Pastry Display<div class="purchase-info">Cost: $300 | +Income, +Rep</div></button>
+                    </div>
+                    <div class="control-section">
+                        <h3>Coworking Furniture</h3>
+                        <button id="buy-desk" class="control-button">Buy Coworking Desk<div class="purchase-info">Cost: $150 | +Coworker Slot</div></button>
+                        <button id="buy-premium-chair" class="control-button">Buy Premium Chair<div class="purchase-info">Cost: $250 | +Rep per desk</div></button>
+                    </div>
+                    <div class="control-section">
+                        <h3>Staff</h3>
+                        <button id="hire-barista" class="control-button">Hire a Barista<div class="purchase-info">Cost: $50/day | +Service Speed, +Rep</div></button>
+                    </div>
+                    <button id="next-day-button" class="action-button">Start Next Day</button>
+                </aside>
+            </div>
+        </div>
+    </div>
+
+    <div id="welcome-modal" class="modal">
+        <div class="modal-content">
+            <h2>Welcome to Bloom & Brew</h2>
+            <p>Your cozy cafe-bakery where every decision matters. Manage your resources, keep customers happy, and grow your business while mastering risk management concepts!</p>
+            <div class="difficulty-select">
+                <h3>Select Difficulty</h3>
+                <div class="button-group">
+                    <button id="casual-btn" class="difficulty-btn">Casual Mode</button>
+                    <button id="pro-btn" class="difficulty-btn">Professional Mode</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.9.1/math.min.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="src/js/main.js" type="module"></script>
+    <script src="src/js/ui/hud.js" type="module"></script>
+</body>
+</html>
